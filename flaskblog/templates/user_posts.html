@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1 class="mb-3">Posts by {{ user.username }} ({{ posts.total }})</h1>
+	{% for post in posts.items[::-1] %} <!--loop through and display posts in reverse order -->
+		<article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> <!--display user profile picture-->
+  			<div class="media-body">
+    			<div class="article-metadata">
+      				<a class="mr-2" href="{{ url_for('user_post', username=post.author.username) }}">{{ post.author.username }}</a> <!--link to user posts page-->
+      				<small class="text-muted">{{ post.date_posted.strftime('%d-%m-%y') }}</small>
+    			</div>
+    			<h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
+    			<p class="article-content">{{ post.content }}</p>
+  			</div>
+		</article>
+	{% endfor %}
+  {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %} <!--loop through number of pages-->
+    {% if page_num %} <!--if there's a page number-->
+      {% if posts.page == page_num %} <!--if current page = page number in our loop-->
+        <a class="btn btn-info mb-4" href="{{ url_for('user_post', username=user.username, page=page_num) }}">{{ page_num }}</a> <!--display the page number as a button which links to that page, button coloured in because you're on that page-->
+      {% else %}
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('user_post', username=user.username, page=page_num) }}">{{ page_num }}</a> <!--display the page number as a button which links to that page-->
+      {% endif %}
+    {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+{% endblock content %}
