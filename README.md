@@ -9,4 +9,4 @@ A fitness focused Flask blog I made over the summer of 2019. Things you can do:
 * Go onto another users profile and see all of their posts
 * Edit and delete posts
 
-Feel free to alter this code and add to it.
+Feel free to alter this code and add your own features.
